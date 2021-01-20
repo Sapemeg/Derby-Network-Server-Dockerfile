@@ -1,21 +1,15 @@
-FROM ubuntu:18.04
-RUN apt-get -y update
-RUN apt-get -y install openssh-server
-RUN apt-get -y install python3
-RUN ln /usr/bin/python3 /usr/bin/python
+FROM adoptopenjdk:8-jre-hotspot-focal
 
-RUN echo 'root:ubuntu' | chpasswd
+RUN apt-get -y update; \
+    apt-get -y install wget 
 
-RUN sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config 
-RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/g' /etc/ssh/sshd_config 
+RUN mkdir /opt/Apache ; \
+    cd /opt/Apache; \
+    wget https://ftp.cc.uoc.gr/mirrors/apache/db/derby/db-derby-10.14.2.0/db-derby-10.14.2.0-bin.tar.gz ; \
+    tar xzvf db-derby-10.14.2.0-bin.tar.gz ; \
+    rm -rf db-derby-10.14.2.0-bin.tar.gz  ; \
+    mkdir  /var/log/db-derby;
 
-RUN sed -i 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' /etc/pam.d/sshd
-RUN echo 'export NOTVISIBLE="in users profile"' >> ~/.bashrc
+COPY entrypoint.sh /root/entrypoint.sh
 
-RUN echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config
-COPY ./authorized_keys /root/.ssh/authorized_keys
-
-#sshd needs this directory to start 
-RUN mkdir /run/sshd
-#run sshd IPv4, without detaching on port 22 see: https://man.openbsd.org/sshd
-CMD ["/usr/sbin/sshd", "-D", "-p", "22"]
+ENTRYPOINT [ "/bin/sh", "/root/entrypoint.sh" ]
