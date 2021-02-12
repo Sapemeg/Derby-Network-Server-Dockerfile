@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#Author: Sarantos P. Meglis <sarantos@meglis.com>
+
 trap stop INT TERM
 LOGDIR=/var/log/db-derby
 LOGFILE=d-db-derby.log

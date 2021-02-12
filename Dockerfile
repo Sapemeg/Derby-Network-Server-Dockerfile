@@ -1,5 +1,7 @@
 FROM adoptopenjdk:8-jre-hotspot-focal
 
+LABEL maintainer="sarantos@meglis.com"
+
 RUN apt-get -y update; \
     apt-get -y install wget 
 
