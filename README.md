@@ -6,6 +6,6 @@ Made according to this documentation
 
 http://db.apache.org/derby/papers/DerbyTut/ns_intro.html
 
-
+See also https://github.com/annstriganova/docker-derby
 
 
