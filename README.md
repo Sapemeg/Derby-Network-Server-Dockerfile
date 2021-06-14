@@ -1,4 +1,4 @@
-#Apache Derby Network Server Dockerfile
+# Apache Derby Network Server Dockerfile
 
 Apache Derby database running in network mode, Dockerfile.  
 
